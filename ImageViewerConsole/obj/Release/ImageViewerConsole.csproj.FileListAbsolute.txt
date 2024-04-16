@@ -1,0 +1,6 @@
+D:\C#\ImageViewerConsole\ImageViewerConsole\bin\Release\ImageViewerConsole.exe.config
+D:\C#\ImageViewerConsole\ImageViewerConsole\bin\Release\ImageViewerConsole.exe
+D:\C#\ImageViewerConsole\ImageViewerConsole\bin\Release\ImageViewerConsole.pdb
+D:\C#\ImageViewerConsole\ImageViewerConsole\obj\Release\ImageViewerConsole.csproj.CoreCompileInputs.cache
+D:\C#\ImageViewerConsole\ImageViewerConsole\obj\Release\ImageViewerConsole.exe
+D:\C#\ImageViewerConsole\ImageViewerConsole\obj\Release\ImageViewerConsole.pdb
