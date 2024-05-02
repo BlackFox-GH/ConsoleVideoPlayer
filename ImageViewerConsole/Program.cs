@@ -55,7 +55,7 @@ namespace ConsoleVideoPlayer
                 IConsoleFrameRenderer renderer;//lértehozzuk a renderer-t, ami feldolgozza majd a képkockákat
                 if (renderMode)
                 {
-                    renderer = new ConsoleFrameRendererImpl_Gradient();
+                    renderer = new ConsoleFrameRendererImpl_24Bit();
                 }
                 else
                 {

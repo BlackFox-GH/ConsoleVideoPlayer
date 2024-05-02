@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Text;
 
-namespace ImageViewerConsole.ConsoleRenderModes
+namespace ConsoleVideoPlayer.ConsoleRenderModes
 {
     internal class ConsoleFrameRendererImpl_24Bit : IConsoleFrameRenderer//24bites megjelenítő mód, "▄" karakter és ASCII escape-k használatával
     /*
@@ -29,7 +29,7 @@ namespace ImageViewerConsole.ConsoleRenderModes
 
             int[] p1 = { -1, -1, -1 };//előző felső pixel színe
             int[] p2 = { -1, -1, -1 };//előző alsó pixel színe
-
+            int quality = 64;
             StringBuilder sb = new StringBuilder();
             lock (frame)
             {
@@ -38,19 +38,32 @@ namespace ImageViewerConsole.ConsoleRenderModes
                     for (int x = 0; x < frame.Width; x++)
                     {
                         Color px = frame.GetPixel(x, y - 1), px2 = frame.GetPixel(x, y);//lekérjük a pixelek színét
-                        if (p1[0] != px.R || p1[1] != px.G || p1[2] != px.B)//ha az alsó nem egyezik, állítjuk a karakter színét
+                        if (p1[0] != px.R/quality || p1[1] != px.G / quality || p1[2] != px.B / quality)//ha az alsó nem egyezik, állítjuk a karakter színét
                         {
-                            p1[0] = px.R;
-                            p1[1] = px.G;
-                            p1[2] = px.B;
-                            sb.Append($"\x1b[38;2;{p1[0]};{p1[1]};{p1[2]}m");//karakter szín állítás ASCII escape-el
+                            p1[0] = px.R / quality;
+                            p1[1] = px.G / quality;
+                            p1[2] = px.B / quality;
+                            sb.Append($"\x1b[38;2;");//háttér szín állítás ASCII escape-el
+                            sb.Append(p1[0]* quality);
+                            sb.Append(";");
+                            sb.Append(p1[1] * quality);
+                            sb.Append(";");
+                            sb.Append(p1[2] * quality);
+                            sb.Append("m");
+                            //sb.Append($"\x1b[38;2;{p1[0]};{p1[1]};{p1[2]}m");//karakter szín állítás ASCII escape-el
                         }
-                        if (p2[0] != px2.R || p2[1] != px2.G || p2[2] != px2.B)//ha a felső nem egyezik, állítjuk a háttér színét
+                        if (p2[0] != px2.R/ quality || p2[1] != px2.G / quality || p2[2] != px2.B/ quality)//ha a felső nem egyezik, állítjuk a háttér színét
                         {
-                            p2[0] = px2.R;
-                            p2[1] = px2.G;
-                            p2[2] = px2.B;
-                            sb.Append($"\x1b[48;2;{p2[0]};{p2[1]};{p2[2]}m");//háttér szín állítás ASCII escape-el
+                            p2[0] = px2.R / quality;
+                            p2[1] = px2.G / quality;
+                            p2[2] = px2.B / quality;
+                            sb.Append($"\x1b[48;2;");//háttér szín állítás ASCII escape-el
+                            sb.Append(p2[0]* quality);
+                            sb.Append(";");
+                            sb.Append(p2[1] * quality);
+                            sb.Append(";");
+                            sb.Append(p2[2] * quality);
+                            sb.Append("m");
                         }
                         sb.Append((char)223);//"▄"
                     }

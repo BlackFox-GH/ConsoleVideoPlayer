@@ -78,7 +78,7 @@ namespace ConsoleVideoPlayer
             frameBuffer = new Dictionary<int, IntPtr>();
             musicPlayer.Open(new Uri(path, UriKind.RelativeOrAbsolute));//megnyitás zene lejátszásához
             vfr.Open(path);//megnyitás a képkockák kiszedéséhez
-            Console.Title = "Console Video Player - " +new Uri(path,UriKind.Absolute);
+            Console.Title = "Console Video Player - " + new Uri(path, UriKind.Absolute);
             width = vfr.Width / (vfr.Height / height) * 2;//képkocka szélességének meghatározása, a képarány megtartásával
             endFrame = Convert.ToInt32(vfr.FrameCount / vfr.FrameRate.Value * 24);//utolsó képkocka kiszámítása
             int endMs = (int)(endFrame * (1000.0 / 24.0));
@@ -145,7 +145,7 @@ namespace ConsoleVideoPlayer
          */
         {
             StringBuilder playerInfo = new StringBuilder();
-            playerInfo.Append("\x1b["+(height+1)+";"+(Console.BufferWidth-9)+"H");
+            playerInfo.Append("\x1b[" + (height + 1) + ";" + (Console.BufferWidth - 9) + "H");
             playerInfo.Append(new string((char)355, volume / 10));
             playerInfo.Append(new string('-', 10 - volume / 10));
             playerInfo.Append("\x1b[0;0H");
@@ -165,7 +165,7 @@ namespace ConsoleVideoPlayer
                     }
                 }
             }
-            catch (ArgumentException) 
+            catch (ArgumentException)
             {
                 /* 
                  * néha ArgumentException-al nem tudja a ToList eltárolni a keys-ben a key-eket,
@@ -217,7 +217,7 @@ namespace ConsoleVideoPlayer
                         SetConsoleActiveScreenBuffer(frame);
                     }
                 }
-            } while (playerData.currentFrame < playerData.endFrame-2);
+            } while (playerData.currentFrame < playerData.endFrame - 2);
             SetConsoleActiveScreenBuffer(GetStdHandle(-11));//visszaváltás a "-11"-es bufferre, innentől ismét működik a Console.Write()
             Console.Clear();
             Console.WriteLine("A lejátszás befejeződött! Nyomj meg egy gombot a kilépéshez...");
@@ -232,9 +232,9 @@ namespace ConsoleVideoPlayer
             //Ehhez kiszámolunk egy képkockánkénti késleltetést (ami lehet negatív is >24FPS esetén), és ha a késleltetés elér 1 képkockányi
             //csúszást, akkor vagy kihagyunk 1 képkockát, vagy hozzáadjuk az előző képkockát 1-szer
             double delayPerFrame = Math.Round(1 - (playerData.vfr.FrameCount / playerData.vfr.FrameRate.Value * 24 / Convert.ToDouble(playerData.vfr.FrameCount)), 8), skipAmount = 0.0;
-            while (playerData.processedFrames < playerData.vfr.FrameCount-1)
+            while (playerData.processedFrames < playerData.vfr.FrameCount - 1)
             {
-                while (playerData.frameBuffer.Count > playerData.bufferSize) {}//amíg a buffer teli, itt megállunk
+                while (playerData.frameBuffer.Count > playerData.bufferSize) { }//amíg a buffer teli, itt megállunk
                 skipAmount += delayPerFrame;
 
                 //Új screen buffer létrehozása
@@ -253,7 +253,7 @@ namespace ConsoleVideoPlayer
                     skipAmount -= 1.0;
                     skipAmount += delayPerFrame;
                 }
-                while (skipAmount < -1.0)//ha a késés kevesebb mint 2 képkocka, az előző képkockát duplikáljuk (FPS<24)
+                while (skipAmount < -1.0)//ha a késés kevesebb mint 1 képkocka, az előző képkockát duplikáljuk (FPS<24)
                 {
                     playerData.frameBuffer[playerData.renderedFrame] = playerData.frameBuffer[playerData.renderedFrame - 1];
                     playerData.renderedFrame++;
